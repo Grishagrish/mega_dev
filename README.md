@@ -18,6 +18,7 @@ Node 20.19+; npm ci; npm run build. Serve the build/ directory at the web root a
 
 The local Windows sandbox required native Vite config loading, preserve-symlink Node flags, and temporary dependency workarounds for parent-directory metadata checks. No changes to classification or rendering logic were needed for those workarounds. They are not part of the submitted kb source. The production static output was successfully generated and the review was opened and checked in a browser.
 
-Signature: Grishagrish / MEGA.dev S01E03 / 2026-10-28. Rendered desk ref: DR-PKX9-0B68.
+The page uses the course-issued signature in its frontmatter. Rendered desk ref: DR-N35Q-QFCS.
 
 This is an export snapshot, not a live queue total. The review explains how to recalculate on new data and distinguishes received dates from merge dates.
+
