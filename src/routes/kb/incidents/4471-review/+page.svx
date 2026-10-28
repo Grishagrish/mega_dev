@@ -41,10 +41,15 @@ Verify both fixes independently with ambiguous dates such as 06/01/2026 and inva
 
 The same tenant can have a different cause on app and booking-v3 form paths; different subject lines can describe the same cause. A missing tenant is not sufficient evidence of duplication. A new accepted decision should supersede 0001 only after desk approval.
 
+## Engineering update — 5 October 2026
+
+After the first submission, the course desk published an update: #4471 closed on 5 October. The parser was **FIXED**, with change description: "fix(dates): parse dd/mm for eu locales". GitHub issue #1 is closed as completed. The hint was **WON'T FIX** because the booking-v3 form was retired; GitHub issue #2 is closed as not planned. These are different outcomes; retiring a form is not a parser fix.
+
 ## Queue history and next review
 
 <QueueTimeline ticket={4471} />
 
-The chart compares reception with merge time; a merge spike is not an arrival spike. Keep both timestamps. On the next export, recalculate unique IDs, memberships, tenant configuration and counts, reconcile every report, and refresh the engineering tickets. A queued fix is not evidence of deployment or resolution.
+The chart compares reception with merge time; a merge spike is not an arrival spike. Keep both timestamps. On the next export, recalculate unique IDs, memberships, tenant configuration and counts, reconcile every report, and refresh the engineering tickets. The original export describes a queued fix; the later engineering update above records its outcome. Neither the export nor the update proves every conflicting report was explained.
 
 <RenderStamp {signature} />
+
