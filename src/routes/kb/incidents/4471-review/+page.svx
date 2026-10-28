@@ -1,0 +1,50 @@
+---
+layout: runbook
+title: '#4471 review: two causes behind wrong dates'
+owner: Grishagrish
+status: reviewed
+reviewed: '2026-10-28'
+signature: 'Grishagrish / MEGA.dev S01E03 / 2026-10-28'
+---
+
+<script>
+ import ReviewEvidence from '#lib/kb/ReviewEvidence.svelte';
+ import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+ import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+ import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+The claim [one issue, one fix queued](/kb/incidents/4471) hides two causes. A shared symptom or subject is insufficient to merge reports. This review uses the 4 October export; it does not claim the desk has stopped receiving reports.
+
+## Evidence and counting
+
+<ReviewEvidence />
+
+Deduplicate on report ID before filtering to #4471. Resolve the tenant through the directory and inspect the tenant's locale and booking form. Use the platform's locale date order, as implemented in `causes.ts`; do not infer it from the browser locale, intake tag, subject, or country stereotypes.
+
+## Engineering tickets
+
+- [Shared parser interprets day-first dates month-first](https://github.com/Grishagrish/mega_dev/issues/1). For day-first tenants, app/email and booking-v2 form reports use the shared parser path. For example, `R-41200` reports 7 April becoming 4 July. Fix the shared parser to respect the input contract and tenant locale; reject ambiguous or invalid input rather than silently changing it.
+- [booking-v3 advertises month-first input to day-first tenants](https://github.com/Grishagrish/mega_dev/issues/2). For form reports from day-first tenants running booking-v3, the printed `MM/DD/YYYY` hint conflicts with the tenant-aware form reader. `R-41230` from copper.studio is an example. Make hint, validation and parsing use the same tenant-aware format. A shared-parser fix does not repair this separate UI contract.
+
+Verify both fixes independently with ambiguous dates such as 06/01/2026 and invalid dates. Include day-first and month-first tenants, booking-v2 and booking-v3, and app/email/form paths. Confirm that visible guidance and the resulting invite agree.
+
+## Conflicting one-day descriptions
+
+`R-41202`, `R-41209`, `R-41236`, `R-41344`, and `R-41620` describe one-day differences or unusual timing. The export's executable classifier places them in the parser group using their tenant and channel. That classification does not prove that a parser caused each narrative. Preserve these reports and request original input, stored timestamp, timezone and generated invite before asserting another root cause. Do not subtract them from the exported classifier's counts or double-count them in a speculative third ticket.
+
+## What the desk should change
+
+[Decision 0001](/kb/decisions/0001-dedupe-by-subject) is an accepted historical record; leave it intact. Its subject-only rule can both merge different causes and separate the same cause. The triage page was last reviewed in June 2024 and must be revalidated against its executable examples. Proposed replacement: use subject matching only to find candidates, then compare tenant locale, booking form, channel and causal evidence. Unknown tenants remain unplaced until investigated.
+
+<DedupeExplorer />
+
+The same tenant can have a different cause on app and booking-v3 form paths; different subject lines can describe the same cause. A missing tenant is not sufficient evidence of duplication. A new accepted decision should supersede 0001 only after desk approval.
+
+## Queue history and next review
+
+<QueueTimeline ticket={4471} />
+
+The chart compares reception with merge time; a merge spike is not an arrival spike. Keep both timestamps. On the next export, recalculate unique IDs, memberships, tenant configuration and counts, reconcile every report, and refresh the engineering tickets. A queued fix is not evidence of deployment or resolution.
+
+<RenderStamp {signature} />
